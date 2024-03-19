@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<meta name='robots' content='noindex, nofollow' />
+<title>Giveaway Page</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+        background-color: #fff;
+        border-radius: 20px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-top: 50px;
+        max-width: 600px;
+    }
+    h1 {
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    label {
+        color: #343a40;
+    }
+    #namesInput {
+        border-radius: 20px;
+        height: 150px; /* Adjust height as needed */
+    }
+    #selectWinner, #addNames {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    #selectWinner {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+    }
+    #addNames {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+    }
+    #selectWinner:hover, #addNames:hover {
+        background-color: #0056b3;
+    }
+    #winner {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+        text-align: center;
+        color: #28a745;
+    }
+    #pastNames {
+        margin-top: 30px;
+    }
+    .past-name {
+        color: #6c757d;
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Giveaway Winner</h1>
+    <div class="form-group">
+        <label for="namesInput">Enter Names (One per line):</label>
+        <textarea class="form-control" id="namesInput" rows="4" placeholder="Enter names here..."></textarea>
+    </div>
+    <button class="btn btn-success" id="addNames">Add Names</button>
+    <button class="btn btn-primary" id="selectWinner">Select Winner</button>
+    <p id="winner"></p>
+    <div id="pastNames">
+        <h3>Past Names:</h3>
+        <ul id="pastNamesList"></ul>
+    </div>
+</div>
+
+<script>
+    document.getElementById('addNames').addEventListener('click', function() {
+        var namesInput = document.getElementById('namesInput').value;
+        var names = namesInput.split('\n').map(function(name) {
+            return name.trim();
+        }).filter(function(name) {
+            return name !== '';
+        });
+
+        if (names.length === 0) {
+            alert('Please enter at least one name.');
+            return;
+        }
+
+        var pastNamesList = document.getElementById('pastNamesList');
+        names.forEach(function(name) {
+            var li = document.createElement('li');
+            li.textContent = name;
+            li.classList.add('past-name');
+            pastNamesList.appendChild(li);
+        });
+
+        document.getElementById('namesInput').value = ''; // Clear textarea after adding names
+    });
+
+    document.getElementById('selectWinner').addEventListener('click', function() {
+        var pastNames = document.querySelectorAll('.past-name');
+        var names = [];
+        pastNames.forEach(function(item) {
+            names.push(item.textContent);
+        });
+
+        if (names.length === 0) {
+            alert('Please enter at least one name.');
+            return;
+        }
+
+        var winner = names[Math.floor(Math.random() * names.length)];
+        document.getElementById('winner').innerText = "Winner: " + winner;
+    });
+</script>
+</body>
+</html>
